@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="/css/includes/navigation.css" />
+<nav class="header_nav">
+  <ul class="nav_logo">
+    <li class="nav_list-item">
+      <a href="/">Logo</a>
+    </li>
+  </ul>
+  <% if(!isAuthenticated) { %>
+  <ul class="nav_list">
+    <li class="nav_list-item">
+      <a href="/customer/signup">Signup</a>
+    </li>
+    <li class="nav_list-item">
+      <a href="/customer/login">Login</a>
+    </li>
+    <% } else { %>
+    <li class="nav_list-item">
+      <a href="/auth/logout">Logout</a>
+    </li>
+    <% } %>
+  </ul>
+</nav>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%-include('../includes/head.ejs')%>
+  </head>
+  <header>
+    <%-include('../includes/navigation.ejs')%>
+    <link rel="stylesheet" href="/css/salon/signup.css" />
+    <script src="/javascripts/salon/signup.js"></script>
+  </header>
+  <body>
+    <div>
+      <form action="/salon/signup" method="POST" id="salon_form" enctype="multipart/form-data">
+        <div id="msg"><%=msg%></div>
+        <div>
+            <label for="email" >Email:</label>
+            <input type="email" name="email" required>
+        </div>
+        <div>
+            <label for="password" >password:</label>
+            <input type="password" name="password" required>
+        </div>
+        <div>
+            <label for="phone" >phone:</label>
+            <input type="tel" name="phone" required>
+        </div>
+        <div>
+            <label for="salon_name" >salon name:</label>
+            <input type="text" name="name" required>
+        </div>
+        <div>
+            <label for="owner" >owner name:</label>
+            <input type="text" name="owner" required>
+        </div>
+        <div>
+            <label for="city" >city:</label>
+            <input type="text" name="city" required>
+        </div>
+        <div>
+            <label for="chairs" >salon chairs:</label>
+            <input type="number" name="chairs" required>
+        </div>
+        <div>
+            <label for="upi_id" >upi id:</label>
+            <input type="text" name="upi_id" required>
+        </div>
+        <div>
+            <label for="address" >address:</label>
+            <textarea name="address" id="address" cols="30" rows="5" required></textarea>
+        </div>
+        <div>
+            <label for="salon_photo" >salon photo:</label>
+            <input type="file" name="salon_photo"  required>
+        </div>
+        <div>
+            <label for="services" >Services Offered:</label>
+            <% service_types.forEach((serv)=>{ %>
+                <div>
+                    <input type="checkbox" class="service" name="service" value="<%=serv.id%>">
+                    <label for="service"><%=serv.serv_name%></label>
+                </div>
+            <% }) %>
+        </div>
+        <div>
+            <label for="slots" >Slots :</label>
+            <% slots.forEach((s)=>{ %>
+                <div>
+                    <input type="checkbox" class="slot" name="slot" value="<%=s.id%>">
+                    <label for="slot"><%=s.name%></label>
+                </div>
+            <% }) %>
+        </div>
+        <div>
+            <label for="work_samples" >Work samples:</label>
+            <input type="file" name="work_samples" multiple>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

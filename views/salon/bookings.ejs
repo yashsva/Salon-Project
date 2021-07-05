@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%-include('../includes/head.ejs')%>
+  </head>
+  <header>
+    <%-include('../includes/navigation.ejs')%>
+  </header>
+  <body>
+    <div>
+        <%bookings.forEach(b=>{%>
+            <div>
+                <b>Customer name:</b><%=b.customer%>
+                <b>Date:</b><%=b.date%>
+                <b>slot:</b><%=b.slot%>
+                <b>Price:</b>Rs.<%=b.total_price%>
+                <b>Services:</b>
+                <%b.services.forEach(s=>{ %>
+                    <%=s%> - 
+                <%})%>
+                
+            </div>
+        <%})%>
+    </div>
+  </body>
+</html>

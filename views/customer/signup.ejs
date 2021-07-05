@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%-include('../includes/head.ejs')%>
+  </head>
+  <header>
+    <%-include('../includes/navigation.ejs')%>
+    <link rel="stylesheet" href="/css/customer/signup.css" />
+  </header>
+  <body>
+    <div>
+      <form action="/customer/signup" method="POST">
+        <div id="msg"><%=msg%></div>
+        <div>
+          <label for="name">Name</label>
+          <input type="text" name="name" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" name="email" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" name="password" />
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input type="text" name="phone" />
+        </div>
+        <div>
+          <label for="city">City</label>
+          <input type="text" name="city" />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

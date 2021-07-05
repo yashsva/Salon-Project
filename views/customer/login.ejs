@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%-include('../includes/head.ejs')%>
+  </head>
+  <header>
+    <%-include('../includes/navigation.ejs')%>
+    <link rel="stylesheet" href="/css/customer/login.css" />
+  </header>
+  <body>
+    <div>
+      <form action="/customer/login" method="POST">
+        <div id="msg"><%=msg%></div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" name="email" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" name="password" />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

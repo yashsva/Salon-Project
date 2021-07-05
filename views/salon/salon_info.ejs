@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%-include('../includes/head.ejs')%>
+  </head>
+  <header>
+    <%-include('../includes/navigation.ejs')%>
+    <link rel="stylesheet" href="/css/salon/salon_info.css" />
+    <script src="/javascripts/salon/salon_info.js"></script>
+  </header>
+  <body>
+    <div>
+      <b>photo</b>
+      <img
+        src="https://res.cloudinary.com/dkxhnyynn/image/upload/v1610476615/<%=salon.img_filename%>"
+        alt=""
+      />
+    </div>
+    <div>
+      <b>name</b>
+      <%=salon.name%>
+    </div>
+    <div>
+      <b>city</b>
+      <%=salon.city%>
+    </div>
+    <div>
+      <b>address</b>
+      <%=salon.address%>
+    </div>
+    <div>
+      <b>owner</b>
+      <%=salon.owner%>
+    </div>
+    <div>
+      <b>chairs</b>
+      <%=salon.chairs%>
+    </div>
+    <div>
+      <b>work samples</b>
+      <% work_samples.forEach(ws=>{ %>
+      <img
+        src="https://res.cloudinary.com/dkxhnyynn/image/upload/v1610476615/<%=ws.img_filename%>"
+        alt="work samples"
+      />
+      <% }) %>
+    </div>
+    <form action="/salon/book_slot" method="post">
+      <div>
+        <b>available services</b>
+        <% services.forEach(s=>{ %>
+        <div>
+          <input type="checkbox" name="service" class="service" value="<%=s.serv_id%>" />
+          <label for="service"><%=s.serv_name%> - </label>
+          <b class="serv_price"><%=s.price%></b>rs
+        </div>
+        <% }) %>
+      </div>
+      <div>
+        <b>Total :</b>
+        <b id="total_price"></b>
+      </div>
+      <div>
+        <label for="date" >Choose Date</label>
+        <input type="date" id="slot_date" name="slot_date" value=<%=min_date%> min=<%=min_date%> max=<%=max_date%> />
+      </div>
+      <div>
+        <label for="slot" >Choose Slot</label>
+        <div id="slots">
+          <% slots.forEach(s=>{ %>
+            <div>
+              <input type="radio" name="slot" value="<%=s.id%>">
+              <label for="name"><%=s.name%></label>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+      <div>
+        <input type="hidden" id="salon_id" name="salon_id" value=<%=salon_id%>>
+        <button>Book</button>
+      </div>
+  </form>
+  </body>
+</html>
