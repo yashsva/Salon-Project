@@ -13,9 +13,11 @@ const customer_table="CREATE TABLE IF NOT EXISTS `customer` ( "
   + "  UNIQUE KEY `phone_UNIQUE` (`phone`) "
   + "  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;  "
 
-  exports.sync= ()=>{
-       return db.execute(customer_table)
-      .catch(err=>{
+  exports.sync=async  ()=>{
+      try {
+          
+          await db.execute(customer_table);
+      } catch (error) {
           console.log(err);
-      })
+      }
   }
