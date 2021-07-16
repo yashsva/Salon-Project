@@ -7,20 +7,90 @@
     <%-include('../includes/navigation.ejs')%>
   </header>
   <body>
-    <div>
-        <%bookings.forEach(b=>{%>
-            <div>
-                <b>Customer name:</b><%=b.customer%>
-                <b>Date:</b><%=b.date%>
-                <b>slot:</b><%=b.slot%>
-                <b>Price:</b>Rs.<%=b.total_price%>
-                <b>Services:</b>
-                <%b.services.forEach(s=>{ %>
-                    <%=s%> - 
-                <%})%>
-                
+
+    <div class="container">
+      <h2 class="text-center user-booking">My Orders</h2>
+        <table class="table">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Date of Booking</th>
+              <th scope="col">Slot</th>
+              <th scope="col">Price</th>
+              <th scope="col">Services</th>
+            </tr>
+          </thead>
+          <tbody>
+              <%bookings.forEach(b=>{%>
+              <tr>
+                <th scope="row"><%=b.customer%></th>
+                <td><%=b.date%></td>
+                <td><%=b.slot%></td>
+                <td>Rs.<%=b.total_price%></td>
+                <td><%b.services.forEach(s=>{ %>
+                    <%=s%>, 
+                  <%})%>
+                </td>
+              </tr>
+              <%})%>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <h3>Address</h3>
+            <p>
+              The National Institute of Engineering <br>
+              Ashokapuram Mysore<br>
+              Karnataka <br><br>
+              <strong>Phone:</strong> +91 55555 55555<br>
+              <strong>Email:</strong> <a href="mailto:bookmysalon@gmail.com">bookmysalon@gmail.com</a><br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About us</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">Terms of service</a></li>
+              <li><a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><a href="/salon/signup">Register salon</a></li>
+              <li><a href="#">Advertisement</a></li>
+              <li><a href="#">Blogs</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Social Networks</h4>
+            <p>Follow us in all our social media handles to get in touch with us</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
             </div>
-        <%})%>
+          </div>
+
+        </div>
+      </div>
     </div>
+
+
+  </footer><!-- End Footer -->
+  
   </body>
 </html>

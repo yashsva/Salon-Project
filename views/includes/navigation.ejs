@@ -1,22 +1,43 @@
-<link rel="stylesheet" href="/css/includes/navigation.css" />
-<nav class="header_nav">
-  <ul class="nav_logo">
-    <li class="nav_list-item">
-      <a href="/">Logo</a>
-    </li>
-  </ul>
+
   <% if(!isAuthenticated) { %>
-  <ul class="nav_list">
-    <li class="nav_list-item">
-      <a href="/customer/signup">Signup</a>
-    </li>
-    <li class="nav_list-item">
-      <a href="/customer/login">Login</a>
-    </li>
+    <header id="header">
+      <div class="container d-flex align-items-center">
+        <h1 class="logo me-auto"><a href="../../..">BookMySalon</a></h1>
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link" href="/"><i class="fa fa-home"></i> Home</a></li>
+            <li><a class="nav-link" href="/salon/all_salons"><i class="fa fa-list"></i> All Salons</a></li>
+            <li><a class="nav-link" href="/salon/signup"><i class="fa fa-edit"></i> Register salon</a></li>
+            <li><a class="getstarted" href="/customer/login"><i class="fa fa-sign-in"></i> User Login</a></li>
+            <li><a class="getstarted" href="/salon/login"><i class="fa fa-sign-in"></i> Owner Login</a></li>        
+          </ul>
+        </nav><!-- .navbar -->
+      </div>
+    </header><!-- End Header -->
     <% } else { %>
-    <li class="nav_list-item">
-      <a href="/auth/logout">Logout</a>
-    </li>
+      <header id="header">
+        <div class="container d-flex align-items-center">
+          <h1 class="logo me-auto"><a href="/">BookMySalon</a></h1>
+          <nav id="navbar" class="navbar">
+            <ul>
+              <li><a class="nav-link" href="/"><i class="fa fa-home"></i> Home</a></li>
+              <li><a class="nav-link" href="/salon/all_salons"><i class="fa fa-list"></i> All Salons</a></li>
+              <%if(isAuthenticated && !isSalonAdmin){ %>
+                <li><a class="nav-link" href="/salon/city_salons"><i class="fa fa-map-marker"></i> Nearby Salons</a></li>
+                <li class="dropdown"><a href="/customer/bookings"><span><i class="fa fa-user"></i>My profile </span></a>
+                  <ul>
+                    <li><a href="/customer/bookings"><i class="fa fa-history"></i> Booking History</a></li>
+                    <li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Log out</a></li>
+                  </ul>
+                </li>
+              <% } else {%>
+                    <li><a class="nav-link" href="/salon/bookings"><i class="fa fa-history"></i> My orders</a></li>
+                    <li><a class="nav-link"href="/auth/logout"><i class="fa fa-sign-out"></i> Log out</a></li>
+                <% } %>
+            </ul>
+          </nav><!-- .navbar -->
+        </div>
+      </header><!-- End Header -->
     <% } %>
-  </ul>
-</nav>
+
+

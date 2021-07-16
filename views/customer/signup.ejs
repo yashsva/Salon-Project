@@ -5,34 +5,46 @@
   </head>
   <header>
     <%-include('../includes/navigation.ejs')%>
-    <link rel="stylesheet" href="/css/customer/signup.css" />
+    <link rel="stylesheet" href="/css/customer/login.css" />
   </header>
   <body>
-    <div>
-      <form action="/customer/signup" method="POST">
-        <div id="msg"><%=msg%></div>
-        <div>
-          <label for="name">Name</label>
-          <input type="text" name="name" />
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input type="email" name="email" />
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" name="password" />
-        </div>
-        <div>
-          <label for="phone">Phone</label>
-          <input type="text" name="phone" />
-        </div>
-        <div>
-          <label for="city">City</label>
-          <input type="text" name="city" />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <div class="wrapper">
+      <%if(msg) {%>
+        <div class="alert alert-danger text-center"><%=msg%></div>
+       <% } else {%>
+        <div class="text-center"><%=msg%></div>
+       <%}%> 
+      <img src="/images/user.png">
+       <h2 class="text-center">User Sign up</h2>
+         <p>Please fill in your credentials to signup.</p>
+         <form action="/customer/signup" method="POST">
+             <div class="form-group">
+                 <label>Name</i></label>
+                 <input type="text" name="name" placeholder="Enter your name" class="form-control" pattern=".+">
+             </div>    
+             <div class="form-group">
+                 <label>Email Id</i></label>
+                 <input type="email" name="email" placeholder="Enter your email" class="form-control" pattern=".+@.+\.com">
+             </div>    
+             <div class="form-group">
+                 <label>Password</label>
+                 <input type="password" name="password" placeholder="Enter your password" class="form-control" pattern=".+">
+             </div>
+             <div class="form-group">
+                 <label>City</i></label>
+                 <input type="text" name="city" placeholder="Enter your City" class="form-control" >
+             </div> 
+             <div class="form-group">
+              <label>Phone No</i></label>
+              <input type="text" name="phone" placeholder="Enter your mobile number" class="form-control" >
+          </div> 
+             <div class="form-group">
+                 <input type="submit" class="btn btn-primary" value="Sign up">
+                 <input type="reset" class="btn btn-primary" value="Reset">
+             </div>
+             <p>Already have an account? <a href="login">Login now</a>.</p>
+         </form>
+     </div>    
+
   </body>
 </html>
