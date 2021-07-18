@@ -21,9 +21,19 @@ $(document).ready(() => {
 function service_event_listner() {
     $(".service").on('change', function () {
         if (this.checked)
-            $(this).parent().append('<input type="number" class="price" name="price" required>');
+            $(this).parent().append('<input type="number" class="price" name="price" placeholder="Enter per price" required>');
         else
             $(this).siblings('.price').remove()
 
     })
 }
+
+
+function getFile(){
+    document.getElementById("upfile").click();
+  }
+  
+  var loadFile = function(event) {
+  var image = document.getElementById('output');
+  image.src = URL.createObjectURL(event.target.files[0]);
+  };

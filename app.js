@@ -41,6 +41,7 @@ app.use(session({
 app.use((req,res,next)=>{
     res.locals.isAuthenticated=req.session.isLoggedIn;
     res.locals.isSalonAdmin=req.session.isSalonAdmin;
+    res.locals.customer=req.session.customer;
     req.customer=req.session.customer;
     next();
 })

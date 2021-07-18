@@ -2,80 +2,214 @@
 <html lang="en">
   <head>
     <%-include('../includes/head.ejs')%>
+    <link rel="stylesheet" href="/css/salon/signup.css" />
+    <script src="/javascripts/salon/signup.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/homepage.css">
   </head>
   <header>
     <%-include('../includes/navigation.ejs')%>
-    <link rel="stylesheet" href="/css/salon/signup.css" />
-    <script src="/javascripts/salon/signup.js"></script>
   </header>
   <body>
-    <div>
+
+<div class="register-form">
+  <%if(msg) {%>
+    <div class="alert alert-danger text-center"><%=msg%></div>
+   <% } else {%>
+    <div class="text-center"><%=msg%></div>
+   <%}%>    
+   <h2 class="text-center">Partner With US</h2>
+      <p class="text-center">Please fill in your salon details correctly.</p>
       <form action="/salon/signup" method="POST" id="salon_form" enctype="multipart/form-data">
-        <div id="msg"><%=msg%></div>
-        <div>
-            <label for="email" >Email:</label>
-            <input type="email" name="email" required>
-        </div>
-        <div>
-            <label for="password" >password:</label>
-            <input type="password" name="password" required>
-        </div>
-        <div>
-            <label for="phone" >phone:</label>
-            <input type="tel" name="phone" required>
-        </div>
-        <div>
-            <label for="salon_name" >salon name:</label>
-            <input type="text" name="name" required>
-        </div>
-        <div>
-            <label for="owner" >owner name:</label>
-            <input type="text" name="owner" required>
-        </div>
-        <div>
-            <label for="city" >city:</label>
-            <input type="text" name="city" required>
-        </div>
-        <div>
-            <label for="chairs" >salon chairs:</label>
-            <input type="number" name="chairs" required>
-        </div>
-        <div>
-            <label for="upi_id" >upi id:</label>
-            <input type="text" name="upi_id" required>
-        </div>
-        <div>
-            <label for="address" >address:</label>
-            <textarea name="address" id="address" cols="30" rows="5" required></textarea>
-        </div>
-        <div>
-            <label for="salon_photo" >salon photo:</label>
-            <input type="file" name="salon_photo"  required>
-        </div>
-        <div>
-            <label for="services" >Services Offered:</label>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputemail">Email Address</label>
+              <input type="email" class="form-control" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Shop name</label>
+                <input type="text" class="form-control" name="name" placeholder="Enter shop name" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputname">Owner Name</label>
+              <input type="text" class="form-control" name="owner" placeholder="Enter Owner Name" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPhno">Mobile number</label>
+              <input type="text" class="form-control" name="phone" placeholder="Mobile number" pattern="[1-9]{1}[0-9]{9}" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" name="address" placeholder="Enter full address" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="inputCity">City</label>
+              <input type="text" class="form-control" id="inputCity" placeholder="Enter salon city" name="city" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+          <div class="form-group col-md-6"> 
+            <label for="services" >Select the Services Offered:</label>
             <% service_types.forEach((serv)=>{ %>
-                <div>
+                <div class="form-check">
                     <input type="checkbox" class="service" name="service" value="<%=serv.id%>">
                     <label for="service"><%=serv.serv_name%></label>
                 </div>
             <% }) %>
-        </div>
-        <div>
+            </div>
+          </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label for="slots" >Slots :</label>
             <% slots.forEach((s)=>{ %>
-                <div>
+                <div class="form-check">
                     <input type="checkbox" class="slot" name="slot" value="<%=s.id%>">
                     <label for="slot"><%=s.name%></label>
                 </div>
             <% }) %>
+          </div>
         </div>
-        <div>
-            <label for="work_samples" >Work samples:</label>
-            <input type="file" name="work_samples" multiple>
-        </div>
-        <button type="submit">Submit</button>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="inputChairs">No of chairs available for booking</label>
+              <input type="number" name="chairs" required>
+            </div>
+          </div>
+
+          <p class="bankdetails"><b>Banking  Details :</b></p>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputbankname">UPI Id</label>
+              <input type="text" class="form-control" name="upi_id" placeholder="UPI Id" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <div class="upload-box" onclick="getFile()" for="work_samples">Click here to upload banner image<img id="output"/></div>
+              <div class="upload-btn"><input id="upfile" type="file" value="upload" onchange="loadFile(event)" accept="image/*" name="salon_photo" /></div>
+          </div>
+
+          <div class="form-group">
+            <div>
+              <label for="work_samples" >Work samples:</label>
+              <input type="file" name="work_samples" multiple>
+              <p class="note">Upload your best previous work samples</p>
+          </div>
+            <input type="submit" class="btn btn-primary" value="Submit">
+            <input type="reset" class="btn btn-primary" value="Reset">
+        </div>        
+
       </form>
+  </div>
+
+      <!-- ======= How it works Section ======= -->
+      <section id="register-salon-info" class="services section-bg">
+        <div class="container">
+  
+          <div class="section-title">
+            <h2>How It Works?</h2>
+            <p>How to become partner us.</p>
+          </div>
+  
+          <div class="row" id="register-salon-work">
+            <div class="col-xl-3">
+              <div class="icon-box">
+                <div class="icon"><img src="/images/create-acc.png"></div>
+                <h4 class="text-center">Step 1</h4>
+                <h6 class="text-center">Create your Account</h6>
+              </div>
+            </div>
+  
+            <div class="col-xl-3">
+              <div class="icon-box">
+                <div class="icon"><img src="/images/register.png"></div>
+                <h4 class="text-center">Step 2</h4>
+                <h6 class="text-center">Register for online booking</h6>
+              </div>
+            </div>
+  
+            <div class="col-xl-3" >
+              <div class="icon-box">
+                <div class="icon"><img src="/images/order.png"></div>
+                <h4 class="text-center">Step 3</h4>
+                <h6 class="text-center">Start receiving the orders</h6>
+                </p>
+              </div>
+            </div>
+  
+          </div>
+  
+        </div>
+      </section><!-- End How it works Section -->
+
+            <!-- ======= Footer ======= -->
+<footer id="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-lg-3 col-md-6">
+          <h3>Address</h3>
+          <p>
+            The National Institute of Engineering <br>
+            Ashokapuram Mysore<br>
+            Karnataka <br><br>
+            <strong>Phone:</strong> +91 55555 55555<br>
+            <strong>Email:</strong> <a href="mailto:bookmysalon@gmail.com">bookmysalon@gmail.com</a><br>
+          </p>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="register-saloon.html">Register salon</a></li>
+            <li><a href="#">Advertisement</a></li>
+            <li><a href="#">Blogs</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Our Social Networks</h4>
+          <p>Follow us in all our social media handles to get in touch with us</p>
+          <div class="social-links mt-3">
+            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </body>
+  </div>
+
+</footer><!-- End Footer -->
+</body>
 </html>

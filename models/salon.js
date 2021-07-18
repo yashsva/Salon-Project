@@ -121,8 +121,8 @@ class Salon {
     static get_bookings(salon_id){
         const query="SELECT bs.id,s.name as slot,DATE_FORMAT(date, '%Y-%m-%d') as date,c.name as customer,bs.total_price from booked_slots as bs "
         +"LEFT JOIN (SELECT id,CONCAT(TIME_FORMAT(start,'%h:%i %p'),' - ',TIME_FORMAT(end,'%h:%i %p')) as name from slot) as s ON slot_id=s.id AND salon_id=? "
-        +" LEFT JOIN  (SELECT id,name FROM customer) as c ON c.id=customer_id ORDER BY date asc;"
-        return db.execute(query,[salon_id]);
+        +" LEFT JOIN  (SELECT id,name FROM customer) as c ON c.id=customer_id WHERE salon_id=? ORDER BY date asc;"
+        return db.execute(query,[salon_id,salon_id]);
     }
 
     static get_booking_services(booking_id){

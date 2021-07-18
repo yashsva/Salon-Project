@@ -110,8 +110,8 @@ exports.sync = async () => {
         await db.execute(salon_to_slot);
         await db.execute(salon_to_service);
         await db.execute(work_samples);
-        await db.execute(booked_slot_services);
         await db.execute(booked_slots);
+        await db.execute(booked_slot_services);
     } catch (err) {
         console.log(err);
     }

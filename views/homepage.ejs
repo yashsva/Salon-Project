@@ -1,12 +1,232 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%-include('./includes/head.ejs')%>
-    <link rel="stylesheet" href="/css/homepage.css">
-  </head>
+<head>
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <%-include('./includes/head.ejs')%>
+      <link href="https://cdn2.iconfinder.com/data/icons/flat-icons-19/512/Sclssors.png" rel="icon">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      <script src="js/main.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
   <header><%-include('./includes/navigation.ejs')%></header>
-  <body>
-      <h1>Homepage</h1>
-    
-  </body>
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1">
+          <%if(isAuthenticated && !isSalonAdmin){%>
+            <h1>Hello <%=customer.name%></h1>
+          <% } else {%>
+            <h1>Welcome</h1>
+          <% } %>
+          <h1 id="tagline">Best Barber In Your Own Town</h1>
+          <h2>Saloon at your doorstep</h2>
+          <div class="d-flex justify-content-center justify-content-lg-start">
+          <% if(isAuthenticated && !isSalonAdmin) { %>
+            <a href="/salon/all_salons" class="btn-get-started">Book Appointment</a>
+          <% } else { %>
+          <% } %>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" >
+          <img src="images/barber2.png" class="img-fluid" alt="Barber hair cutting">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>About Us</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p>
+              <img src="images/barber3.jpg" class="img-fluid" alt="Barber hair cutting">
+            </p>
+          </div>
+          <div class="col-lg-5 pt-4 pt-lg-7">
+            <p>
+              Launched in 2021, Our technology platform connects customers and salon partners serving their multiple needs. 
+              Customers use our platform to search and discover salons, and book appointments in salon. On the other hand, 
+              we provide salon partners with industry-specific marketing tools which enable them to engage and acquire customers 
+              to grow their business while also providing a reliable and efficient service.
+            </p>
+            <a href="#" class="btn-learn-more">Learn More</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Services</h2>
+          <p>Popular services offered by us.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <div class="icon"><img src="images/haircut.png"></div>
+              <h4><a href="">Hair Cut</a></h4>
+              <p>Life is too short to have boring hair.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+            <div class="icon-box">
+              <div class="icon"><img src="images/shaving.png"></div>
+              <h4><a href="">Shaving</a></h4>
+              <p>A veteran beard is a mark of prestige.</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" >
+            <div class="icon-box">
+              <div class="icon"><img src="images/massage.png"></div>
+              <h4><a href="">Massage</a></h4>
+              <p>Massage is not just a luxury. It's a way to a healthier, happier life.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0">
+            <div class="icon-box">
+              <div class="icon"><img src="images/spa.png"></div>
+              <h4><a href="">Spa</a></h4>
+              <p>Switch off and relax, recharge, reflect, detox and beautify. 
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Team</h2>
+          <p>We are the students who developed this website.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="member d-flex align-items-start">
+              <div class="pic"><img src="images/user.png" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Srujan Rai K</h4>
+                <span>Front-End Designer</span>
+                <p>Follow us</p>
+                <div class="social">
+                  <a href=""><i class="fa fa-twitter"></i></a>
+                  <a href=""><i class="fa fa-facebook"></i></a>
+                  <a href=""><i class="fa fa-instagram"></i></a>
+                  <a href=""> <i class="fa fa-linkedin"></i> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="member d-flex align-items-start">
+              <div class="pic"><img src="images/user.png" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Yashsva Sisodiya</h4>
+                <span>Back-End Developer</span>
+                <p>Follow us</p>
+                <div class="social">
+                  <a href=""><i class="fa fa-twitter"></i></a>
+                  <a href=""><i class="fa fa-facebook"></i></a>
+                  <a href=""><i class="fa fa-instagram"></i></a>
+                  <a href=""> <i class="fa fa-linkedin"></i> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <h3>Address</h3>
+            <p>
+              The National Institute of Engineering <br>
+              Ashokapuram Mysore<br>
+              Karnataka <br><br>
+              <strong>Phone:</strong> +91 55555 55555<br>
+              <strong>Email:</strong> <a href="mailto:bookmysalon@gmail.com">bookmysalon@gmail.com</a><br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About us</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">Terms of service</a></li>
+              <li><a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><a href="/salon/signup">Register salon</a></li>
+              <li><a href="#">Advertisement</a></li>
+              <li><a href="#">Blogs</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Social Networks</h4>
+            <p>Follow us in all our social media handles to get in touch with us</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </footer><!-- End Footer -->
+
+</body>
+
 </html>

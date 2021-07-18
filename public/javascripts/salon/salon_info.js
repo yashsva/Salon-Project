@@ -27,7 +27,7 @@ function service_event_listener() {
             var slots="";
              response.forEach(s => {
                 slots+="<div>"
-                    +"<input type='radio' name='slot' value="+ s.id +" >"
+                    +"<input type='radio' name='slot' class='radio-btn' value="+ s.id +" required>"
                     + "<label for='name'>"+ s.name+"</label>"
                     +"</div>";
             })
@@ -37,3 +37,4 @@ function service_event_listener() {
        
     })
 }
+
