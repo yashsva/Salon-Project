@@ -133,11 +133,11 @@ exports.get_all_salons = async (req, res, next) => {
 exports.get_salon_info = async (req, res, next) => {
     try {
         var salons, services, work_samples, slots, data;
-        const date = new Date().toISOString().slice(0, 10), max_date = new Date(new Date().getTime() + 6 * 86400000).toISOString().slice(0, 10);
+        const min_date = new Date(new Date().getTime() + 1 * 86400000).toISOString().slice(0, 10), max_date = new Date(new Date().getTime() + 7 * 86400000).toISOString().slice(0, 10);
         [salons, others] = await Salon.get_salon_by_id(req.params.id);
         [services, others] = await Salon.get_salon_services(req.params.id);
         [work_samples, others] = await Salon.get_work_samples_by_id(req.params.id);
-        [data] = await Salon.get_empty_slots(req.params.id, date);
+        [data] = await Salon.get_empty_slots(req.params.id, min_date);
         slots = data[data.length - 1];
         // console.log(slots);
         res.render('salon/salon_info', {
@@ -146,7 +146,7 @@ exports.get_salon_info = async (req, res, next) => {
             work_samples: work_samples,
             services: services,
             slots: slots,
-            min_date: date,
+            min_date: min_date,
             max_date: max_date,
             salon_id: req.params.id,
         })
@@ -159,7 +159,7 @@ exports.get_salon_info = async (req, res, next) => {
 exports.get_empty_slots = async (req, res, next) => {
     // console.log(req.query);
     try {
-        const date = req.query.date, salon_id = req.query.salon_id, max_date = new Date(new Date().getTime() + 6 * 86400000);
+        const date = req.query.date, salon_id = req.query.salon_id, max_date = new Date(new Date().getTime() + 7 * 86400000);
         if ((new Date(date)) < max_date) {
             const [data] = await Salon.get_empty_slots(salon_id, date);
             const slots = data[data.length - 1];
@@ -176,12 +176,12 @@ exports.post_book_slot=async (req,res,next)=>{
     try {
         // console.log(req.body);
         const salon_id=req.body.salon_id,service_ids=req.body.service,slot_date=req.body.slot_date,slot_id=parseInt(req.body.slot);
-        const max_date = new Date(new Date().getTime() + 6 * 86400000);
+        const min_date = new Date(new Date().getTime() + 1 * 86400000), max_date = new Date(new Date().getTime() + 7 * 86400000);
         const [data] = await Salon.get_empty_slots(salon_id, slot_date);
         const empty_slots = data[data.length - 1];
         // console.log(empty_slots);
         const empty_slot_ids=empty_slots.map((s)=>{ return s.id })
-        if ((new Date(slot_date)) > max_date ||  !empty_slot_ids.includes(slot_id) ) throw new Error();
+        if ((new Date(slot_date)) > max_date || (new Date(slot_date))< min_date ||  !empty_slot_ids.includes(slot_id) ) throw new Error();
         const [[{total_price}]]=await Salon.get_total_price_for_salon_services(salon_id,service_ids);
         const [salons,others]=await Salon.get_salon_by_id(salon_id);
         const salon=salons[0];
@@ -216,7 +216,7 @@ exports.post_book_slot=async (req,res,next)=>{
 
     } catch (err) {
         console.log(err);
-        res.redirect("/");
+        res.send("error");
     }
 }
 
@@ -227,14 +227,15 @@ exports.get_checkout_success=async (req,res,next)=>{
         const session=await stripe.checkout.sessions.retrieve(session_id);
         // console.log(session);
         const pay_info=session.metadata;
-        const salon_id=pay_info.salon_id,service_ids=pay_info.service_ids.split(","),date=pay_info.slot_date
-        ,slot_id=parseInt(pay_info.slot_id),max_date = new Date(new Date().getTime() + 6 * 86400000);
-        const [data] = await Salon.get_empty_slots(salon_id, date);
+        const salon_id=pay_info.salon_id,service_ids=pay_info.service_ids.split(","),slot_date=pay_info.slot_date
+        ,slot_id=parseInt(pay_info.slot_id),max_date = new Date(new Date().getTime() + 7 * 86400000);;
+        const min_date = new Date(new Date().getTime() + 1 * 86400000);
+        const [data] = await Salon.get_empty_slots(salon_id, slot_date);
         const empty_slots = data[data.length - 1];
         const empty_slot_ids=empty_slots.map((s)=>{ return s.id })
-        if ((new Date(date)) > max_date ||  !empty_slot_ids.includes(slot_id) ) throw new Error();
+        if ((new Date(slot_date)) > max_date || (new Date(slot_date))< min_date ||  !empty_slot_ids.includes(slot_id) ) throw new Error();
         const [[{total_price}]]=await Salon.get_total_price_for_salon_services(salon_id,service_ids);
-        const [{ insertId }, others]=await Salon.add_slot(pay_info.customer_id,salon_id,slot_id,total_price,date);
+        const [{ insertId }, others]=await Salon.add_slot(pay_info.customer_id,salon_id,slot_id,total_price,slot_date);
         await Salon.add_booked_slot_services(insertId,service_ids);
         res.redirect('/customer/bookings');
 
