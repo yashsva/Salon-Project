@@ -79,7 +79,7 @@ exports.post_login = async (req, res, next) => {
             if (salons.length && salons[0].password == password) {
                 req.session.isLoggedIn = true;
                 req.session.isSalonAdmin = true;
-                req.session.salon=salons[0];
+                req.session.salon = salons[0];
                 await req.session.save((err) => {
                     if (!err) {
                         res.redirect('/');
@@ -172,47 +172,47 @@ exports.get_empty_slots = async (req, res, next) => {
     }
 }
 
-exports.post_book_slot=async (req,res,next)=>{
+exports.post_book_slot = async (req, res, next) => {
     try {
         // console.log(req.body);
-        const salon_id=req.body.salon_id,service_ids=req.body.service,slot_date=req.body.slot_date,slot_id=parseInt(req.body.slot);
+        const salon_id = req.body.salon_id, service_ids = req.body.service, slot_date = req.body.slot_date, slot_id = parseInt(req.body.slot);
         const min_date = new Date(new Date().getTime() + 1 * 86400000), max_date = new Date(new Date().getTime() + 7 * 86400000);
         const [data] = await Salon.get_empty_slots(salon_id, slot_date);
         const empty_slots = data[data.length - 1];
         // console.log(empty_slots);
-        const empty_slot_ids=empty_slots.map((s)=>{ return s.id })
-        if ((new Date(slot_date)) > max_date || (new Date(slot_date))< min_date ||  !empty_slot_ids.includes(slot_id) ) throw new Error();
-        const [[{total_price}]]=await Salon.get_total_price_for_salon_services(salon_id,service_ids);
-        const [salons,others]=await Salon.get_salon_by_id(salon_id);
-        const salon=salons[0];
-        
-        const product_details={
-            price_data:{
-                currency:"inr",
-                unit_amount:total_price*100,
-                product_data:{
-                    name:salon.name,
+        const empty_slot_ids = empty_slots.map((s) => { return s.id })
+        if ((new Date(slot_date)) > max_date || (new Date(slot_date)) < min_date || !empty_slot_ids.includes(slot_id)) throw new Error();
+        const [[{ total_price }]] = await Salon.get_total_price_for_salon_services(salon_id, service_ids);
+        const [salons, others] = await Salon.get_salon_by_id(salon_id);
+        const salon = salons[0];
+
+        const product_details = {
+            price_data: {
+                currency: "inr",
+                unit_amount: total_price * 100,
+                product_data: {
+                    name: salon.name,
                 }
             },
-            quantity:1,
+            quantity: 1,
         }
 
-        const session=await stripe.checkout.sessions.create({
-            mode:"payment",
-            success_url:req.protocol + "://"+req.get('host')+"/salon/checkout/success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url:req.protocol + "://"+req.get('host')+"/salon/salon_info/"+salon_id,
-            line_items:[product_details],
+        const session = await stripe.checkout.sessions.create({
+            mode: "payment",
+            success_url: req.protocol + "://" + req.get('host') + "/salon/checkout/success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url: req.protocol + "://" + req.get('host') + "/salon/salon_info/" + salon_id,
+            line_items: [product_details],
             payment_method_types: ['card'],
-            metadata:{
-                salon_id:salon_id,
-                service_ids:service_ids.toString(),
-                slot_date:slot_date,
-                slot_id:slot_id,
-                customer_id:req.customer.id,
+            metadata: {
+                salon_id: salon_id,
+                service_ids: service_ids.toString(),
+                slot_date: slot_date,
+                slot_id: slot_id,
+                customer_id: req.customer.id,
             }
-        }) 
+        })
         // console.log(session);
-        res.send({session_id:session.id});
+        res.send({ session_id: session.id });
 
     } catch (err) {
         console.log(err);
@@ -220,23 +220,23 @@ exports.post_book_slot=async (req,res,next)=>{
     }
 }
 
-exports.get_checkout_success=async (req,res,next)=>{
-    
+exports.get_checkout_success = async (req, res, next) => {
+
     try {
-        const session_id=req.query.session_id;
-        const session=await stripe.checkout.sessions.retrieve(session_id);
+        const session_id = req.query.session_id;
+        const session = await stripe.checkout.sessions.retrieve(session_id);
         // console.log(session);
-        const pay_info=session.metadata;
-        const salon_id=pay_info.salon_id,service_ids=pay_info.service_ids.split(","),slot_date=pay_info.slot_date
-        ,slot_id=parseInt(pay_info.slot_id),max_date = new Date(new Date().getTime() + 7 * 86400000);;
+        const pay_info = session.metadata;
+        const salon_id = pay_info.salon_id, service_ids = pay_info.service_ids.split(","), slot_date = pay_info.slot_date
+            , slot_id = parseInt(pay_info.slot_id), max_date = new Date(new Date().getTime() + 7 * 86400000);;
         const min_date = new Date(new Date().getTime() + 1 * 86400000);
         const [data] = await Salon.get_empty_slots(salon_id, slot_date);
         const empty_slots = data[data.length - 1];
-        const empty_slot_ids=empty_slots.map((s)=>{ return s.id })
-        if ((new Date(slot_date)) > max_date || (new Date(slot_date))< min_date ||  !empty_slot_ids.includes(slot_id) ) throw new Error();
-        const [[{total_price}]]=await Salon.get_total_price_for_salon_services(salon_id,service_ids);
-        const [{ insertId }, others]=await Salon.add_slot(pay_info.customer_id,salon_id,slot_id,total_price,slot_date);
-        await Salon.add_booked_slot_services(insertId,service_ids);
+        const empty_slot_ids = empty_slots.map((s) => { return s.id })
+        if ((new Date(slot_date)) > max_date || (new Date(slot_date)) < min_date || !empty_slot_ids.includes(slot_id)) throw new Error();
+        const [[{ total_price }]] = await Salon.get_total_price_for_salon_services(salon_id, service_ids);
+        const [{ insertId }, others] = await Salon.add_slot(pay_info.customer_id, salon_id, slot_id, total_price, slot_date);
+        await Salon.add_booked_slot_services(insertId, service_ids);
         res.redirect('/customer/bookings');
 
     } catch (err) {
@@ -246,15 +246,15 @@ exports.get_checkout_success=async (req,res,next)=>{
 
 }
 
-exports.get_bookings=async (req,res,next)=>{
-    const [bookings,others]=await Salon.get_bookings(req.session.salon.id);
-    for(var i=0; i<bookings.length;i++){
-        [services,other]=await Salon.get_booking_services(bookings[i].id);
-        services=services.map(s=>{return s.serv_name;})
-        bookings[i].services=services;
+exports.get_bookings = async (req, res, next) => {
+    const [bookings, others] = await Salon.get_bookings(req.session.salon.id);
+    for (var i = 0; i < bookings.length; i++) {
+        [services, other] = await Salon.get_booking_services(bookings[i].id);
+        services = services.map(s => { return s.serv_name; })
+        bookings[i].services = services;
     }
-    res.render('salon/bookings',{
-        page_title:'Bookings',
-        bookings:bookings,
+    res.render('salon/bookings', {
+        page_title: 'Bookings',
+        bookings: bookings,
     })
 }

@@ -29,11 +29,11 @@ function service_event_listner() {
 }
 
 
-function getFile(){
+function getFile() {
     document.getElementById("upfile").click();
-  }
-  
-  var loadFile = function(event) {
-  var image = document.getElementById('output');
-  image.src = URL.createObjectURL(event.target.files[0]);
-  };
+}
+
+var loadFile = function (event) {
+    var image = document.getElementById('output');
+    image.src = URL.createObjectURL(event.target.files[0]);
+};
