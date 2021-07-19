@@ -46,10 +46,8 @@
                 <a href=""> <i class="fa fa-linkedin"></i> </a>
               </div>
             </div>
-            <% if(!isAuthenticated) { %>
-              <a class="booksaloon" href="/customer/login">Book Appointment</a> 
-            <% } else { %>
-              <a class="booksaloon" href="/salon/salon_info/<%=s.id%>">Book Appointment</a> 
+            <% if(customer) { %>
+              <a class="booksaloon" href="/salon/salon_info/<%=s.id%>">Book Appointment</a>  
             <% } %>
           </div>
         </div>

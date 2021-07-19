@@ -29,7 +29,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(multer({ storage: storage_config.image_storage, fileFilter: storage_config.imageFileFilter }).any());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
