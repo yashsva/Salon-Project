@@ -24,7 +24,7 @@ function service_event_listener() {
         // console.log(date, id);
         const data = { date: date, salon_id: id };
         $.get("/salon/get_empty_slots", data, function (response) {
-            console.log(response);
+            // console.log(response);
             var slots="";
              response.forEach(s => {
                 slots+="<div>"
@@ -50,7 +50,7 @@ function book_btn_event_listenter(){
         });
         // console.log(body);
         $.post("/salon/book_slot",body,function(response,status){
-            console.log(response);
+            // console.log(response);
             if(status=="success"){
                 var stripe=Stripe('pk_test_51H82jrIFYzjfbik1fmBO0GkFi2BB2HDNf35FUltwU7UXGcDfUeAwWtsaFFz780QR2JNLLbbqZUdxr4h4wGpNy33F00kXRnKkco');
                 stripe.redirectToCheckout({sessionId :response.session_id});
