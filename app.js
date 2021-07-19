@@ -4,6 +4,8 @@ const path = require('path');
 const session = require('express-session');
 const Mysql_store = require('express-mysql-session')(session);
 const multer = require('multer');
+const fs = require('fs');
+const compression = require('compression');
 require('dotenv').config();
 
 const customer_routes = require('./routes/customer');
@@ -17,6 +19,8 @@ const error_controller=require('./controllers/error_controller');
 
 const app = express();
 
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+
 
 const session_store = new Mysql_store({
     createDatabaseTable: true,
@@ -28,7 +32,10 @@ const session_store = new Mysql_store({
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.use(morgan('dev'));
+sync_db.sync();
+
+app.use(compression());     //compress assets while sending response
+// app.use(morgan('common',{ stream:accessLogStream}));     //logging requests
 app.use(express.urlencoded({ extended: true }));
 app.use(multer({ storage: storage_config.image_storage, fileFilter: storage_config.imageFileFilter }).any());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,7 +52,6 @@ app.use((req,res,next)=>{
     req.customer=req.session.customer;
     next();
 })
-sync_db.sync();
 
 app.use('/customer', customer_routes);
 app.use('/auth', auth_routes);
