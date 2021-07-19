@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="/css/salon/salon_info.css" />
     <script src="/javascripts/salon/salon_info.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
   </head>
   <header>
     <%-include('../includes/navigation.ejs')%>
@@ -41,7 +42,7 @@
 
     <section id="team" class="team section-bg">
       <div class="salonlist services-offered">
-      <form action="/salon/book_slot" method="post">
+      <form action="/salon/book_slot" id="form_book-slot" method="post">
         <div class="row" id="names">
           <h1 class="available-service">Available Services :</h1>
           <% services.forEach(s=>{ %>
@@ -73,7 +74,7 @@
            <div>
              <input type="hidden" id="salon_id" name="salon_id" value=<%=salon_id%>>
              <% if(!isSalonAdmin) { %>
-              <button class="btn btn-primary book">Book Slot</button>
+              <button class="btn btn-primary book" id="btn_book-slot" >Book Slot</button>
               <% } %>
            </div>
         </div>
