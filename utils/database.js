@@ -1,4 +1,6 @@
 const mysql = require('mysql2');
+const fs = require('fs');
+const path = require('path');
 
 //To get API keys from .env files (Using process.env.<variable_name> )
 require('dotenv').config();
