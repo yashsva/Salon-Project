@@ -176,7 +176,7 @@ exports.post_book_slot = async (req, res, next) => {
     try {
         // console.log(req.body);
         const salon_id = req.body.salon_id, service_ids = req.body.service, slot_date = req.body.slot_date, slot_id = parseInt(req.body.slot);
-        const min_date = new Date(new Date().getTime() + 1 * 86400000), max_date = new Date(new Date().getTime() + 7 * 86400000);
+        const min_date = new Date(new Date().getTime() + 1 * 86400000).setHours(0,0,0,0), max_date = new Date(new Date().getTime() + 7 * 86400000).setHours(0,0,0,0);
         const [data] = await Salon.get_empty_slots(salon_id, slot_date);
         const empty_slots = data[data.length - 1];
         // console.log(empty_slots);
